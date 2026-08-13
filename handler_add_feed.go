@@ -8,7 +8,8 @@ import (
 	"github.com/SCoVader/gator/internal/database"
 )
 
-func handlerAddFeed(s *state, cmd command) error {
+// Logged in function
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) < 2 {
 		return fmt.Errorf("usage: %s <name-of-feed> <feed-url>", cmd.Name)
 	}
@@ -18,16 +19,20 @@ func handlerAddFeed(s *state, cmd command) error {
 		return err
 	}
 
-	curUser, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return err
-	}
-
 	feed, err := s.db.CreateFeed(context.Background(), database.CreateFeedParams{
 		Name:   cmd.Args[0],
 		Url:    url.String(),
-		UserID: curUser.ID,
+		UserID: user.ID,
 	})
+	if err != nil {
+		return err
+	}
+	args := []string{url.String()}
+	err = handlerFollow(s, command{
+		Name: "follow",
+		Args: args,
+	}, user)
+
 	if err != nil {
 		return err
 	}
