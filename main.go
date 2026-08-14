@@ -47,7 +47,7 @@ func main() {
 	cmds.register("following", middlewareLoggedIn(handlerGetFollowing))
 	cmds.register("unfollow", middlewareLoggedIn(handlerUnfollow))
 	if len(os.Args) < 2 {
-		log.Fatal("Usagea cli <command> [args...]")
+		log.Fatal("Usage: gator <command> [args...]")
 	}
 
 	cmdName := os.Args[1]

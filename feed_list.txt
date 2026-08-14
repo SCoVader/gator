@@ -1,0 +1,6 @@
+https://techcrunsh.com/feed/
+https://news.ycombinator.com/rss
+https://マリウス.com/index.xml
+https://matklad.github.io/feed.xml
+https://theconsensus.dev/rss.xml
+https://rss.com/blog/feed/

@@ -1,6 +1,6 @@
 -- +goose Up
 alter table feeds
-add last_fetched_at timestamp default now() not null;
+add last_fetched_at timestamp default now();
 
 -- +goose Down
 alter table feeds

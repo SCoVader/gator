@@ -4,15 +4,21 @@ values(
   gen_random_uuid(),
   now(),
   now(),
-  now(),
+  null,
   $1,
   $2,
   $3  
 ) returning *;
 
--- name: UpdateFetchedStatus :one
+-- name: MarkFeedFetched :one
 update feeds set updated_at = now(), last_fetched_at = now()
-where id = $1;
+where id = $1
+returning *;
+
+-- name: GetNextFeedToFetch :one
+select * from feeds
+order by last_fetched_at asc nulls first
+limit 1;
 
 -- name: GetFeed :one
 select * from feeds

@@ -16,8 +16,8 @@ func handlerRegister(s *state, cmd command) error {
 		return err
 	}
 
+	fmt.Println("Successfully created user ", user.Name)
 	args := []string{user.Name}
-	fmt.Println("Successfully created user ", s.cfg.CurrentUserName)
 	err = handlerLogin(s, command{
 		Name: "login",
 		Args: args,
