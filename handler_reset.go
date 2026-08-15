@@ -1,7 +1,17 @@
 package main
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
 
 func handlerReset(s *state, cmd command) error {
-	return s.db.ResetUsers(context.Background())
+	err := s.db.ResetUsers(context.Background())
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("Database cleared")
+
+	return nil
 }

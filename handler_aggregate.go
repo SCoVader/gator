@@ -1,26 +1,26 @@
 package main
 
 import (
-	"context"
 	"fmt"
+	"time"
 )
 
 func handlerAggregate(s *state, cmd command) error {
-	// Replace constant value with cmd.Args[0] when done testing
-	url := "https://www.wagslane.dev/index.xml"
-	feed, err := fetchFeed(context.Background(), url)
+	if len(cmd.Args) != 1 {
+		return fmt.Errorf("usage: %s <duration>", cmd.Name)
+	}
+
+	time_between_requests, err := time.ParseDuration(cmd.Args[0])
 	if err != nil {
 		return err
 	}
-	fmt.Println(feed.Channel.Title)
-	fmt.Println(feed.Channel.Description)
-	fmt.Println(feed.Channel.Link)
-	for _, entry := range feed.Channel.Item {
-		fmt.Println(entry.Title)
-		fmt.Println(entry.Description)
-		fmt.Println(entry.Link)
-		fmt.Println(entry.PubDate)
+	fmt.Println("Collecting feeds every ", time_between_requests.String())
+	ticker := time.NewTicker(time_between_requests)
+	for ; ; <-ticker.C {
+		err = scrapeFeeds(s)
+		if err != nil {
+			return err
+		}
 	}
-
-	return nil
+	//return nil
 }
